@@ -1,17 +1,29 @@
 var express = require('express');
+var mysql = require('mysql')
+var connect = require('../utils/sqlconnect');
 var router = express.Router();
 
 const templateTypes = [
   {name: "Jade", usefulness : "pretty ok"},
-  {name: "EJS", usefulness : "too many <%"},
-  {name: "Handlebars", usefulness : "i can ride my bike with no"}
+  {name: "EJS", usefulness : "bad"},
+  {name: "Handlebars", usefulness : "alright"}
 ]
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { 
+
+
+  connect.query('SELECT * FROM mainmodel', (err, result, fields) => {
+    if(err) {
+      throw err; console.log(err);
+    } else {
+      console.log(result);
+    }
+  });
+  res.render('home', { 
     title: 'Express',
-    message: 'not broken',
+    message: 'I can ride my bike with',
+    bodymessage: 'no handlebars, no handlebars, no handlebars',
     template: templateTypes
   });
 });
